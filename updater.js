@@ -114,3 +114,4 @@ const runEvery12Hours = async () => {
 
 // Start the script
 runEvery12Hours();
+module.exports = { runEvery12Hours };
