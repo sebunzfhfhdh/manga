@@ -36,6 +36,6 @@ const startUpdater = async () => {
 
 // Start the Express server
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running`);
     startUpdater();
 });
