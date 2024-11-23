@@ -33,10 +33,9 @@ const startUpdater = async () => {
     }
 };
 
-// Run the updater in the background
-startUpdater();
 
 // Start the Express server
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
+    startUpdater();
 });
