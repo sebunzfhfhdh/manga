@@ -16,12 +16,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/doc', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'doc.html'));
-});
-
-
-
 // Start the Express server
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
