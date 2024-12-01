@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaWave API Documentation</title>
+    <link rel="stylesheet" href="doc.css">
+</head>
+<body>
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>MangaWave API Documentation</h1>
+            <p>Explore our API for accessing manga data, including titles, chapters, and more!</p>
+        </div>
+    </header>
+
+    <nav class="doc-nav">
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#endpoints">Endpoints</a></li>
+            <li><a href="#examples">Examples</a></li>
+            <li><a href="#errors">Error Handling</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <section id="overview">
+            <h2 class="section-title">Overview</h2>
+            <p>The MangaWave API provides easy access to a wide range of manga data, including titles, chapters, covers, and more. Below are the available endpoints for interacting with the API.</p>
+        </section>
+
+        <section id="endpoints">
+            <h2 class="section-title">API Endpoints</h2>
+            
+            <h3>/manga</h3>
+            <p>Get a list of manga based on specific query parameters. You can filter manga by various attributes such as title, type, year, and status.</p>
+            
+            <h4>Query Parameters</h4>
+            <ul>
+                <li><strong>q</strong> (optional): The title of the manga you want to search for. Default is an empty string.</li>
+                <li><strong>type</strong> (optional): The type of manga (e.g., 'Shonen', 'Seinen', etc.). Default is an empty string.</li>
+                <li><strong>year</strong> (optional): The release year of the manga.</li>
+                <li><strong>status</strong> (optional): The current status of the manga (e.g., 'Ongoing', 'Completed').</li>
+                <li><strong>id</strong> (optional): The unique identifier of a specific manga.</li>
+            </ul>
+
+            <h4>Example Request</h4>
+            <pre><code>GET /manga?q=One%20Piece&type=Shonen&year=1999&status=Ongoing</code></pre>
+
+            <h4>Example Response</h4>
+            <pre><code>{
+  "id": "2",
+  "title": "One Piece",
+  "type": "Manga",
+  "year": "1999",
+  "status": "Ongoing",
+  "cover": "/images/https%3A%2F%2Fcdn.readdetectiveconan.com%2Ffile%2Fmangapill%2Fi%2F2.jpeg"
+}</code></pre>
+        </section>
+
+        <section id="examples">
+            <h2 class="section-title">API Request Examples</h2>
+            
+            <h3>Get Manga by Title</h3>
+            <pre><code>GET /manga?q=naruto</code></pre>
+            <p>Searches for manga with the title "Naruto". Example response:</p>
+            <pre><code>{
+  "id": "1",
+  "title": "Naruto",
+  "type": "Shonen",
+  "year": "1999",
+  "status": "Completed",
+  "cover": "/images/naruto_cover.jpg"
+}</code></pre>
+
+            <h3>Get Manga by Type</h3>
+            <pre><code>GET /manga?type=Shonen</code></pre>
+            <p>Searches for manga of the type "Shonen". Example response:</p>
+            <pre><code>[
+  {
+    "id": "2",
+    "title": "One Piece",
+    "type": "Shonen",
+    "year": "1999",
+    "status": "Ongoing",
+    "cover": "/images/one_piece_cover.jpg"
+  },
+  {
+    "id": "3",
+    "title": "Dragon Ball",
+    "type": "Shonen",
+    "year": "1984",
+    "status": "Completed",
+    "cover": "/images/dragon_ball_cover.jpg"
+  }
+]</code></pre>
+
+            <h3>Get Manga by Year</h3>
+            <pre><code>GET /manga?year=2000</code></pre>
+            <p>Searches for manga released in the year 2000. Example response:</p>
+            <pre><code>[
+  {
+    "id": "4",
+    "title": "Bleach",
+    "type": "Shonen",
+    "year": "2000",
+    "status": "Completed",
+    "cover": "/images/bleach_cover.jpg"
+  }
+]</code></pre>
+
+            <h3>Get Manga by Status</h3>
+            <pre><code>GET /manga?status=Ongoing</code></pre>
+            <p>Searches for manga that are currently ongoing. Example response:</p>
+            <pre><code>[
+  {
+    "id": "5",
+    "title": "My Hero Academia",
+    "type": "Shonen",
+    "year": "2014",
+    "status": "Ongoing",
+    "cover": "/images/my_hero_academia_cover.jpg"
+  }
+]</code></pre>
+
+            <h3>Get Manga by ID</h3>
+            <pre><code>GET /manga?id=2</code></pre>
+            <p>Searches for a specific manga by its unique ID. Example response:</p>
+            <pre><code>{
+  "id": "2",
+  "title": "One Piece",
+  "type": "Shonen",
+  "year": "1999",
+  "status": "Ongoing",
+  "cover": "/images/one_piece_cover.jpg"
+}</code></pre>
+        </section>
+
+        <section id="errors">
+            <h2 class="section-title">Error Handling</h2>
+            <p>In case of an error, the API will return an error message along with the appropriate HTTP status code.</p>
+            <h3>Common Errors</h3>
+            <ul>
+                <li><strong>400 Bad Request</strong>: Invalid or missing query parameters.</li>
+                <li><strong>404 Not Found</strong>: No manga found matching the given parameters.</li>
+                <li><strong>500 Internal Server Error</strong>: An unexpected error occurred on the server.</li>
+            </ul>
+            <h4>Example Error Response</h4>
+            <pre><code>{
+  "error": "Invalid parameter",
+  "message": "The 'type' parameter is invalid."
+}</code></pre>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MangaWave. All rights reserved. | <a href="https://discord.gg/kyCckj7773">Join our Discord</a></p>
+    </footer>
+</body>
+</html>

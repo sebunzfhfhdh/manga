@@ -1,0 +1,210 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #0d1126;
+    color: #ffffff;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #0d1126;
+    color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.hero-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #ffd700;
+    animation: fadeIn 1.5s ease;
+}
+
+.hero-content .highlight {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #dcdcdc;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background-color: #ffd700;
+    color: #0d1126;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #ffcc00;
+}
+
+/* Cards */
+.card-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background-color: #1e2645;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+    color: #ffd700;
+}
+
+.card .highlight {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+/* Explore Section */
+.manga-section {
+    padding: 60px 20px;
+    background-color: #ffcc00;
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #ffff;
+    margin-top: 55px;
+    margin-bottom: -35px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.section-title .highlight {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.manga-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.manga-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.manga-item:hover img {
+    transform: scale(1.05);
+}
+
+.manga-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.manga-title {
+    font-size: 1rem;
+    max-width: 100%;
+}
+
+.manga-item:hover .manga-title {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.manga-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .manga-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .manga-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
+
+/* Footer Styling */
+footer {
+    background-color: #0d1126;
+    color: #dcdcdc;
+    padding: 20px;
+    text-align: center;
+    font-size: 1rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+footer a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    footer {
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,214 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #0d1126; /* Cozy dark background */
+    color: #e0e0e0; /* Soft light text */
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 50px; /* Extra breathing space */
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 60px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #0d1126 50%, #1e2645);
+    border-bottom: 3px solid #3b4cca;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #dcdcdc;
+    padding: 0 10px;
+}
+
+.cta-button {
+    background-color: #ffd700;
+    color: #0d1126;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px; /* Rounded for a cozy look */
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:hover {
+    background-color: #ffcc00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation Bar */
+.doc-nav {
+    background-color: #1e2645;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.doc-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.doc-nav ul li a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.doc-nav ul li a:hover {
+    background-color: #3b4cca;
+    color: #ffffff;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 2rem;
+    color: #ffd700;
+    margin: 50px 0 20px;
+    text-align: center;
+    border-bottom: 2px solid #3b4cca;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+/* Content Section */
+.content {
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 15px;
+    background-color: #1e2645;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+h3 {
+    font-size: 1.6rem;
+    margin-top: 30px;
+    color: #ffd700;
+    border-left: 4px solid #3b4cca;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.3rem;
+    margin-top: 20px;
+    color: #ffcc00;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+pre code {
+    background-color: #1e2645;
+    color: #e0e0e0;
+    padding: 15px;
+    border-radius: 12px;
+    display: block;
+    font-size: 1rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer Styling */
+footer {
+    background-color: #0d1126;
+    color: #dcdcdc;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: auto;
+    border-top: 2px solid #3b4cca;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.3);
+}
+
+footer a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .doc-nav ul {
+        gap: 10px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    pre code {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .doc-nav ul {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
