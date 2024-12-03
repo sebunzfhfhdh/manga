@@ -22,7 +22,6 @@ router.get('/*', async (req, res) => {
         console.log('Invalid path:', urlPath);
         return res.status(400).send('Invalid image path.');
     }
-    console.log('Fetching URL:', fullUrl);
 
     try {
         const response = await axios.get(fullUrl, {
