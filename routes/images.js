@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const path = require('path');
 
 // Headers required to fetch images from the external source
 const headers = {
@@ -8,33 +9,27 @@ const headers = {
     'Referer': 'https://mangapill.com/',
 };
 
-// Proxy images from the external source
-router.get('/:urlPath', async (req, res) => {
+// Base URL to prepend to the path
+const baseUrl = 'https://cdn.readdetectiveconan.com/';
+
+router.get('/*', async (req, res) => {
+    const urlPath = req.params[0];
+    console.log('Requested path:', urlPath); // Log the captured path for debugging
+
     try {
-        // Decode the URL path to get the full URL (this is the URL-encoded path passed in the request)
-        const imageUrl = decodeURIComponent(req.params.urlPath);
+        const fullUrl = `${baseUrl}${urlPath}`;
+        console.log('Full URL:', fullUrl); // Log the full URL to check correctness
 
-        // Ensure the URL starts with 'http' or 'https' to make sure it's a valid URL
-        if (!/^https?:\/\//i.test(imageUrl)) {
-            return res.status(400).send('Invalid image URL.');
-        }
-
-        // Fetch the image from the external source
-        const response = await axios.get(imageUrl, {
+        const response = await axios.get(fullUrl, {
             headers,
-            responseType: 'arraybuffer', // Ensure binary response for the image
+            responseType: 'arraybuffer',
         });
 
-        // Set the content type and headers in the response
         res.set('Content-Type', response.headers['content-type']);
-        res.set('Cache-Control', 'public, max-age=86400'); // Optional caching header
-
-        // Send the image data directly (no JSON)
+        res.set('Cache-Control', 'public, max-age=86400');
         res.send(response.data);
     } catch (error) {
         console.error(`Error fetching image: ${error.message}`);
-
-        // Handle errors and set appropriate status codes
         if (error.response) {
             res.status(error.response.status).send('Failed to fetch image from the source.');
         } else {
