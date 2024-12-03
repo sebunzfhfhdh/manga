@@ -3,23 +3,18 @@ const router = express.Router();
 const axios = require('axios');
 const path = require('path');
 
-// Headers required to fetch images from the external source
 const headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36',
     'Referer': 'https://mangapill.com/',
 };
 
-// Base URL to prepend to the path
-const baseUrl = 'https://cdn.readdetectiveconan.com/';
+const baseUrl = 'https://cdn.readdetectiveconan.com/file/mangap';
 
 router.get('/*', async (req, res) => {
-    const urlPath = req.params[0];
-    console.log('Requested path:', urlPath); // Log the captured path for debugging
+    let urlPath = req.params[0];
+    const fullUrl = `${baseUrl}/${urlPath}`;
 
     try {
-        const fullUrl = `${baseUrl}${urlPath}`;
-        console.log('Full URL:', fullUrl); // Log the full URL to check correctness
-
         const response = await axios.get(fullUrl, {
             headers,
             responseType: 'arraybuffer',
@@ -37,5 +32,6 @@ router.get('/*', async (req, res) => {
         }
     }
 });
+
 
 module.exports = router;
