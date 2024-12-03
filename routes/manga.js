@@ -4,17 +4,26 @@ const router = express.Router();
 
 // Initialize SQLite Cloud database connection
 const db = new Database('sqlitecloud://ch3an8wnhz.sqlite.cloud:8860/manga.db?apikey=2pkgTi7BtfuN4DjZjLOrhsHgBBIArm7PAtiEOq5ioHI');
+// Helper function to transform the image URL without encoding
+const transformImageUrl = (url, baseUrl) => {
+    try {
+        const decodedUrl = decodeURIComponent(url); // Decode the URL
+        const filePath = decodedUrl.split('/file/')[1]; // Extract the path after `/file/`
+        return filePath
+            ? `${baseUrl}images/file/${filePath}` // Reconstruct the desired URL
+            : `${baseUrl}images/${url}`; // Use the raw URL if the format is unexpected
+    } catch (err) {
+        console.error('Error transforming image URL:', err.message);
+        return `${baseUrl}images/${url}`; // Return raw URL if there's an error
+    }
+};
 
-// Helper function to format manga data and encode URLs
+// Updated `formatMangaData` to use the new `transformImageUrl`
 const formatMangaData = (manga, baseUrl) => ({
     ...manga,
-    // Encoding the poster URL
-    poster: !manga.poster.startsWith(baseUrl)
-        ? `${baseUrl}images/${encodeURIComponent(manga.poster)}`
-        : manga.poster,
+    poster: transformImageUrl(manga.poster, baseUrl),
 });
 
-// Helper function to fetch manga and format it
 const fetchManga = async (query, params = []) => {
     try {
         const result = await db.sql(query, params);
@@ -25,34 +34,40 @@ const fetchManga = async (query, params = []) => {
     }
 };
 
-// API to fetch manga by ID or apply filters
+
+// Updated `/` route
 router.get('/', async (req, res, next) => {
-    const { q = '', type = '', year = '', status = '', id = '' } = req.query;
+    const { q = '', type = '', year = '', status = '', id = '', c = 'false' } = req.query;
     const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
 
     try {
         if (id) {
-            // Fetch manga details and chapters by ID
             const result = await fetchManga('SELECT * FROM mangas WHERE id = ?', [id]);
             if (!result.length) {
                 return res.status(404).json({ error: 'Manga not found' });
             }
 
             const manga = result[0];
-            const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE manga_id = ?', [id]);
-            const updatedManga = {
-                ...formatMangaData(manga, baseUrl),
-                chapters: chaptersResult.map(chapter => ({
-                    ...chapter,
-                    image_urls: chapter.image_urls
-                        .split(',')
-                        .map(url => `${baseUrl}images/${encodeURIComponent(url.trim())}`) // Encoding chapter image URLs
-                }))
-            };
+            const ChaptersFlag = c.toLowerCase() === 'true';
+
+            let updatedManga = formatMangaData(manga, baseUrl);
+
+            if (ChaptersFlag) {
+                const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE manga_id = ?', [id]);
+                updatedManga = {
+                    ...updatedManga,
+                    chapters: chaptersResult.map(chapter => ({
+                        ...chapter,
+                        image_urls: chapter.image_urls
+                            .split(',')
+                            .map(url => transformImageUrl(url.trim(), baseUrl)), // Apply transformation
+                    }))
+                };
+            }
+
             return res.json(updatedManga);
         }
 
-        // Combine all filter parameters into one query
         let filters = [];
         let params = [];
 
@@ -73,9 +88,8 @@ router.get('/', async (req, res, next) => {
             params.push(status);
         }
 
-        // If there are any filters, build the query with those parameters
         const query = filters.length
-            ? `SELECT * FROM mangas WHERE ${filters.join(' AND ')}` // Improved SQL query
+            ? `SELECT * FROM mangas WHERE ${filters.join(' AND ')}`
             : `SELECT * FROM mangas`;
 
         const result = await fetchManga(query, params);
@@ -89,8 +103,15 @@ router.get('/', async (req, res, next) => {
         res.json(updatedMangaList);
     } catch (err) {
         console.error('Error processing the request:', err.message);
-        next(err); // Pass error to error handling middleware
+        next(err); // Pass error to error-handling middleware
     }
+});
+
+
+// Add error handling middleware
+router.use((err, req, res, next) => {
+    console.error('Error handling middleware:', err.message);
+    res.status(500).json({ error: 'Internal Server Error' });
 });
 
 module.exports = router;
