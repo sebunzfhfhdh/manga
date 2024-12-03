@@ -4,19 +4,33 @@ const router = express.Router();
 
 // Initialize SQLite Cloud database connection
 const db = new Database('sqlitecloud://ch3an8wnhz.sqlite.cloud:8860/manga.db?apikey=2pkgTi7BtfuN4DjZjLOrhsHgBBIArm7PAtiEOq5ioHI');
-// Helper function to transform the image URL without encoding
 const transformImageUrl = (url, baseUrl) => {
     try {
         const decodedUrl = decodeURIComponent(url); // Decode the URL
-        const filePath = decodedUrl.split('/file/')[1]; // Extract the path after `/file/`
+        let filePath;
+
+        if (decodedUrl.includes('/mangap')) {
+            filePath = decodedUrl.split('/mangap')[1]; // Extract the path after `/mangap/`
+        } else {
+            filePath = decodedUrl; // Use raw URL if the format is unexpected
+        }
+
+        // Remove leading slashes if they exist, to avoid double slashes
+        if (filePath && filePath.startsWith('/')) {
+            filePath = filePath.substring(1);
+        }
+
+        // Construct and return the final URL
         return filePath
-            ? `${baseUrl}images/file/${filePath}` // Reconstruct the desired URL
-            : `${baseUrl}images/${url}`; // Use the raw URL if the format is unexpected
+            ? `${baseUrl}images/${filePath}`
+            : `${baseUrl}images/${decodedUrl}`; // Fallback to using raw URL
+
     } catch (err) {
         console.error('Error transforming image URL:', err.message);
         return `${baseUrl}images/${url}`; // Return raw URL if there's an error
     }
 };
+
 
 // Updated `formatMangaData` to use the new `transformImageUrl`
 const formatMangaData = (manga, baseUrl) => ({
