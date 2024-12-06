@@ -16,7 +16,7 @@ router.get('/*', async (req, res) => {
     if (urlPath.startsWith('ill')) {
         const correctedPath = urlPath.replace('ill', 'mangapill');
         fullUrl = `${baseUrl}/${correctedPath}`;
-    } else if (urlPath.startsWith('mangap')) {
+    } else if (urlPath.startsWith('')) {
         fullUrl = `${baseUrl}/mangap/${urlPath}`;
     } else {
         console.log('Invalid path:', urlPath);
