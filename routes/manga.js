@@ -73,7 +73,7 @@ router.get('/', async (req, res, next) => {
                 const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE manga_id = ?', [id]);
                 updatedManga.chapters = chaptersResult.map(chapter => ({
                     chapter_id: chapter.chapter_id,
-                    chapter_link: `/manga?chapter=${chapter.chapter_id}` // Link to the chapter page
+                    chapter_link: `https://manga-yyxp.onrender.com/manga?chapter=${chapter.chapter_id}` // Link to the chapter page
                 }));
             }
             
