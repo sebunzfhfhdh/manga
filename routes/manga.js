@@ -3,7 +3,7 @@ const { Database } = require('@sqlitecloud/drivers');
 const router = express.Router();
 
 // Initialize SQLite Cloud database connection
-const db = new Database('sqlitecloud://ch3an8wnhz.sqlite.cloud:8860/manga.db?apikey=WGT8EGmtB3e4QM9WRf8JBB2m70Kz4OeKdnoWdjWE5A4');
+const db = new Database('sqlitecloud://ch3an8wnhz.sqlite.cloud:8860/manga.db?apikey=zOzZi3yzTEnn9At12oRBBMQCIszUYB6zPtMUStzmNCA');
 
 
 const transformImageUrl = (url, baseUrl) => {
