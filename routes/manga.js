@@ -53,7 +53,7 @@ const fetchManga = async (query, params = []) => {
 
 // Updated `/` route
 router.get('/', async (req, res, next) => {
-    const { q = '', type = '', year = '', status = '', id = '', c = 'false' } = req.query;
+    const { q = '', type = '', year = '', status = '', id = '', c = 'false', chapter = '' } = req.query;
     const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
 
     try {
@@ -83,6 +83,18 @@ router.get('/', async (req, res, next) => {
 
             return res.json(updatedManga);
         }
+
+         if (chapter) {
+            const result = await fetchManga('SELECT * FROM chapters WHERE chapter_id = ?', [chapter]);
+            if (!result.length) {
+                return res.status(404).json({ error: 'Manga not found' });
+            }
+            const manga = result[0];
+            const ChaptersFlag = c.toLowerCase() === 'true';
+            let updatedManga = formatMangaData(manga, baseUrl);
+            return res.json(updatedManga);
+        }
+
 
         let filters = [];
         let params = [];
