@@ -85,7 +85,7 @@ router.get('/', async (req, res, next) => {
         }
 
          if (chapter) {
-           const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE chapter_id = '', [chapter]);
+           const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE chapter_id = ?', [chapter]);
                 updatedManga = {
                     ...updatedManga,
                     chapters: chaptersResult.map(chapter => ({
@@ -95,7 +95,8 @@ router.get('/', async (req, res, next) => {
                             .map(url => transformImageUrl(url.trim(), baseUrl)), 
                     }))
                 };
-        }
+            }
+        
 
 
         let filters = [];
