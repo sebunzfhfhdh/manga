@@ -68,18 +68,15 @@ router.get('/', async (req, res, next) => {
 
             let updatedManga = formatMangaData(manga, baseUrl);
 
+            
             if (ChaptersFlag) {
                 const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE manga_id = ?', [id]);
-                updatedManga = {
-                    ...updatedManga,
-                    chapters: chaptersResult.map(chapter => ({
-                        ...chapter,
-                        image_urls: chapter.image_urls
-                            .split(',')
-                            .map(url => transformImageUrl(url.trim(), baseUrl)), // Apply transformation
-                    }))
-                };
+                updatedManga.chapters = chaptersResult.map(chapter => ({
+                    chapter_id: chapter.chapter_id,
+                    chapter_link: `/manga?chapter=${chapter.chapter_id}` // Link to the chapter page
+                }));
             }
+            
 
             return res.json(updatedManga);
         }
