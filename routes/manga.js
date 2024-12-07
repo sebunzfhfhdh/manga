@@ -84,18 +84,19 @@ router.get('/', async (req, res, next) => {
             return res.json(updatedManga);
         }
 
-         if (chapter) {
+        if (chapter) {
            const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE chapter_id = ?', [chapter]);
-                updatedManga = {
-                    ...updatedManga,
-                    chapters: chaptersResult.map(chapter => ({
-                        ...chapter,
-                        image_urls: chapter.image_urls
-                            .split(',')
-                            .map(url => transformImageUrl(url.trim(), baseUrl)), 
-                    }))
-                };
-            }
+            updatedManga = {
+                ...updatedManga,
+                chapters: chaptersResult.map(chapter => ({
+                    ...chapter,
+                    image_urls: chapter.image_urls
+                   .split(',')
+                    .map(url => transformImageUrl(url.trim(), baseUrl)), 
+                }))
+            };
+            return res.json(updatedManga);
+        }
         
 
 
