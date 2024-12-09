@@ -3,7 +3,6 @@ const { Database } = require('@sqlitecloud/drivers');
 const router = express.Router();
 require('dotenv').config();
 
-// Initialize SQLite Cloud database connection
 const db = new Database(process.env.DBinfo);
 
 const fetchManga = async (query, params = []) => {
@@ -23,35 +22,32 @@ const formatMangaData = (manga, baseUrl) => ({
 
 const transformImageUrl = (url, baseUrl) => {
     try {
-        const decodedUrl = decodeURIComponent(url); // Decode the URL
+        const decodedUrl = decodeURIComponent(url); 
         let filePath;
 
         if (decodedUrl.includes('/mangap')) {
-            filePath = decodedUrl.split('/mangap')[1]; // Extract the path after `/mangap/`
+            filePath = decodedUrl.split('/mangap')[1];
         } else {
-            filePath = decodedUrl; // Use raw URL if the format is unexpected
+            filePath = decodedUrl; 
         }
 
-        // Remove leading slashes if they exist, to avoid double slashes
         if (filePath && filePath.startsWith('/')) {
             filePath = filePath.substring(1);
         }
 
-        // Construct and return the final URL
         return filePath
             ? `${baseUrl}images/${filePath}`
-            : `${baseUrl}images/${decodedUrl}`; // Fallback to using raw URL
+            : `${baseUrl}images/${decodedUrl}`; 
 
     } catch (err) {
         console.error('Error transforming image URL:', err.message);
-        return `${baseUrl}images/${url}`; // Return raw URL if there's an error
+        return `${baseUrl}images/${url}`;
     }
 };
 
 
-// Fetch popular mangas based on the number of views (popularity)
 router.get('/', async (req, res, next) => {
-    const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
+    const baseUrl = `${req.protocol}://${req.get('host')}/`; 
 
     try {
         const query = `SELECT * FROM mangas ORDER BY views DESC`;
