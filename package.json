@@ -15,7 +15,9 @@
     "@sqlitecloud/drivers": "^1.0.289",
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
+    "string-similarity": "^4.0.4",
     "winston": "^3.17.0"
   }
 }
