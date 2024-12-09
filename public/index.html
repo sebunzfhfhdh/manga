@@ -22,7 +22,7 @@
             <div class="card">
                 <span class="icon">🔍</span>
                 <h2 class="highlight">Search</h2>
-                <p>Use powerful filtering options to search through our extensive database of <span class="highlight">4,000+ manga/manhwa.</span></p>
+                <p>Use powerful filtering options to search through our extensive database of over <span class="highlight">4,000+ manga/manhwa.</span></p>
             </div>            
             <div class="card">
                 <span class="icon">⚙️</span>
@@ -37,45 +37,93 @@
 
     <section class="manga-section">        
         <div id="mangaList" class="manga-grid">
-            <!-- Manga items will be dynamically added here -->
         </div>
     </section>
+
+    <section id="mangaDetailsSection" class="manga-details hidden">
+        <div id="mangaDetails" class="details-container">
+        </div>
+    </section>
+    
+    
 
     <footer>
         <p>&copy; 2024 MangaWave. All rights reserved. | <a href="https://discord.gg/kyCckj7773">Join our Discord</a></p>
     </footer>
 
     <script>
-        async function fetchMangaDataById(mangaId) {
-            try {
-                const response = await fetch(`/manga?id=${mangaId}`);
-                const mangaData = await response.json();
+function displayMangaDetails(mangaData) {
+    console.log("Displaying manga details:", mangaData);
+    const mangaDetailsSection = document.getElementById('mangaDetailsSection');
+    const mangaDetailsContainer = document.getElementById('mangaDetails');
 
-                if (mangaData) {
-                    const mangaListContainer = document.getElementById('mangaList');
-                    const mangaItem = document.createElement('div');
-                    mangaItem.classList.add('manga-item');
-                    mangaItem.innerHTML = `
-                        <img src="${mangaData.poster}" alt="${mangaData.name}" class="manga-cover">
-                    `;
-                    mangaListContainer.appendChild(mangaItem);
-                } else {
-                    console.error(`Manga data not found for ID: ${mangaId}`);
-                }
-            } catch (error) {
-                console.error('Error fetching manga data:', error);
-            }
+    if (mangaData) {
+        mangaDetailsContainer.innerHTML = `
+<div class="details-container">
+    <div class="image-container">
+        <img src="${mangaData.poster || 'default-poster.jpg'}" alt="${mangaData.name || 'Unknown Manga'}">
+        <h3>${mangaData.name || 'Unknown Manga'}</h3> 
+    </div>
+    <div class="text-content">
+        <p class="description">${mangaData.description || 'No description available.'}</p>
+        <p><strong>Genres:</strong> ${mangaData.genres ? mangaData.genres.split(',').map(genre => `<span>${genre.trim()}</span>`).join(' ') : 'N/A'}</p>
+        <p><strong>Views:</strong> ${mangaData.views || 'N/A'}</p>
+        <p><strong>Chapters:</strong> ${mangaData.chapters || 'N/A'}</p>
+    </div>
+</div>
+
+        `;
+        mangaDetailsSection.classList.remove('hidden');
+    } else {
+        console.error("Manga data not available.");
+    }
+}
+
+async function fetchMangaDataById(mangaId) {
+    try {
+        const response = await fetch(`/manga?id=${mangaId}`);
+        const mangaData = await response.json();
+
+        if (mangaData) {
+            const mangaListContainer = document.getElementById('mangaList');
+            const mangaItem = document.createElement('div');
+            mangaItem.classList.add('manga-item');
+            mangaItem.innerHTML = `
+                <img src="${mangaData.poster}" alt="${mangaData.name}" class="manga-cover" data-id="${mangaId}">
+            `;
+            mangaItem.addEventListener('click', () => displayMangaDetails(mangaData));
+            mangaListContainer.appendChild(mangaItem);
+        } else {
+            console.error(`Manga data not found for ID: ${mangaId}`);
         }
+    } catch (error) {
+        console.error('Error fetching manga data:', error);
+    }
+}
 
-        async function fetchMultipleMangaData(mangaIds) {
-            for (const id of mangaIds) {
-                await fetchMangaDataById(id);
-            }
-        }
+async function displayDefaultMangaDetails(mangaId) {
+    try {
+        const response = await fetch(`https://manga-yyxp.onrender.com/manga?id=${mangaId}`);
+        const mangaData = await response.json();
+        displayMangaDetails(mangaData);
+    } catch (error) {
+        console.error('Error fetching default manga details:', error);
+    }
+}
 
-        // Example usage: Replace with the desired manga IDs
-        const mangaIds = ['2', '580', '4330', '3262', '12', '1828']; // Replace these with actual IDs you need to use
-        fetchMultipleMangaData(mangaIds);
+async function fetchMultipleMangaData(mangaIds) {
+    for (const id of mangaIds) {
+        await fetchMangaDataById(id);
+    }
+    if (mangaIds.length > 0) {
+        displayDefaultMangaDetails(mangaIds[0]);
+    }
+}
+
+const mangaIds = ['2', '580', '4330', '3262', '12', '1828'];
+fetchMultipleMangaData(mangaIds);
+
+
     </script>
 </body>
 </html>
