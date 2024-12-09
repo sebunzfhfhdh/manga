@@ -1,40 +1,47 @@
 const express = require('express');
 const { Database } = require('@sqlitecloud/drivers');
 const router = express.Router();
+require('dotenv').config();
 
-// Initialize SQLite Cloud database connection
-const db = new Database('sqlitecloud://ch3an8wnhz.sqlite.cloud:8860/manga.db?apikey=zOzZi3yzTEnn9At12oRBBMQCIszUYB6zPtMUStzmNCA');
+const db = new Database(process.env.DBinfo);
 
 
 const transformImageUrl = (url, baseUrl) => {
     try {
-        const decodedUrl = decodeURIComponent(url); // Decode the URL
+        const decodedUrl = decodeURIComponent(url); 
         let filePath;
 
         if (decodedUrl.includes('/mangap')) {
-            filePath = decodedUrl.split('/mangap')[1]; // Extract the path after `/mangap/`
+            filePath = decodedUrl.split('/mangap')[1];
         } else {
-            filePath = decodedUrl; // Use raw URL if the format is unexpected
+            filePath = decodedUrl; 
         }
 
-        // Remove leading slashes if they exist, to avoid double slashes
         if (filePath && filePath.startsWith('/')) {
             filePath = filePath.substring(1);
         }
 
-        // Construct and return the final URL
         return filePath
             ? `${baseUrl}images/${filePath}`
-            : `${baseUrl}images/${decodedUrl}`; // Fallback to using raw URL
+            : `${baseUrl}images/${decodedUrl}`; 
 
     } catch (err) {
         console.error('Error transforming image URL:', err.message);
-        return `${baseUrl}images/${url}`; // Return raw URL if there's an error
+        return `${baseUrl}images/${url}`;
     }
 };
 
 
-// Updated `formatMangaData` to use the new `transformImageUrl`
+const incrementViews = async (mangaId) => {
+    try {
+        const query = `UPDATE mangas SET views = views + 1 WHERE id = ?`;
+        await fetchManga(query, [mangaId]);
+    } catch (err) {
+        console.error('Error incrementing views:', err.message);
+    }
+};
+
+
 const formatMangaData = (manga, baseUrl) => ({
     ...manga,
     poster: transformImageUrl(manga.poster, baseUrl),
@@ -51,13 +58,13 @@ const fetchManga = async (query, params = []) => {
 };
 
 
-// Updated `/` route
 router.get('/', async (req, res, next) => {
     const { q = '', type = '', year = '', status = '', id = '', c = 'false', chapter = '' } = req.query;
-    const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
+    const baseUrl = `${req.protocol}://${req.get('host')}/`; 
 
     try {
         if (id) {
+            await incrementViews(id);
             const result = await fetchManga('SELECT * FROM mangas WHERE id = ?', [id]);
             if (!result.length) {
                 return res.status(404).json({ error: 'Manga not found' });
@@ -73,7 +80,7 @@ router.get('/', async (req, res, next) => {
                 const chaptersResult = await fetchManga('SELECT * FROM chapters WHERE manga_id = ?', [id]);
                 updatedManga.chapters = chaptersResult.map(chapter => ({
                     chapter_id: chapter.chapter_id,
-                    chapter_link: `https://manga-yyxp.onrender.com/manga?chapter=${chapter.chapter_id}` // Link to the chapter page
+                    chapter_link: `https://manga-yyxp.onrender.com/manga?chapter=${chapter.chapter_id}` 
                 }));
             }
             
@@ -131,12 +138,11 @@ router.get('/', async (req, res, next) => {
         res.json(updatedMangaList);
     } catch (err) {
         console.error('Error processing the request:', err.message);
-        next(err); // Pass error to error-handling middleware
+        next(err); 
     }
 });
 
 
-// Add error handling middleware
 router.use((err, req, res, next) => {
     console.error('Error handling middleware:', err.message);
     res.status(500).json({ error: 'Internal Server Error' });
