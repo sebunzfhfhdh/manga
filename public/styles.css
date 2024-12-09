@@ -1,14 +1,14 @@
-/* General Reset */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Styling */
+
 body {
     font-family: 'Poppins', Arial, sans-serif;
-    background-color: #0d1126;
+    background-color: #ffcc00;
     color: #ffffff;
     line-height: 1.5;
     display: flex;
@@ -16,7 +16,7 @@ body {
     min-height: 100vh;
 }
 
-/* Hero Section */
+
 .hero-section {
     padding: 60px 20px;
     text-align: center;
@@ -63,7 +63,6 @@ body {
     background-color: #ffcc00;
 }
 
-/* Cards */
 .card-container {
     display: flex;
     gap: 20px;
@@ -97,9 +96,8 @@ body {
     font-weight: bold;
 }
 
-/* Explore Section */
 .manga-section {
-    padding: 60px 20px;
+    padding: 15px 20px;
     background-color: #ffcc00;
     color: #ffffff;
     text-align: center;
@@ -121,7 +119,7 @@ body {
 
 .manga-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);  /* Ensures 6 items per row */
+    grid-template-columns: repeat(6, 1fr); 
     gap: 20px;
     width: 90%;
     max-width: 1200px;
@@ -162,7 +160,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Mobile Responsiveness */
+
 @media (max-width: 768px) {
     .section-title {
         font-size: 2rem;
@@ -179,7 +177,7 @@ body {
     }
 }
 
-/* Footer Styling */
+
 footer {
     background-color: #0d1126;
     color: #dcdcdc;
@@ -208,4 +206,179 @@ footer a:hover {
     footer {
         font-size: 0.9rem;
     }
+}
+
+.manga-details {
+    background-color: #1e2645;
+    color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    max-width: 72%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+
+
+.details-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.details-container img {
+    width: 200px; 
+    height: 300px; 
+    object-fit: cover; 
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.details-container .text-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.text-content h3 {
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.text-content .description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #dcdcdc;
+}
+
+.text-content p {
+    margin: 5px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.text-content p strong {
+    color: #ffcc00;
+}
+
+.text-content .genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.text-content .genres span {
+    background-color: #ffcc00;
+    color: #0d1126;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.details-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+.details-container .text-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.details-container img {
+    width: 250px;
+    height: 375px; 
+    object-fit: cover; 
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%; 
+    max-width: 100%;
+}
+
+.image-container h3 {
+    color: #ffd700;
+}
+
+.text-content h3 {
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+    white-space: nowrap;  
+    overflow: hidden;     
+    width: 100%;           
+    max-width: 16ch;       
+    display: block;    
+}    
+
+.text-content p {
+    margin: 5px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #dcdcdc;
+}
+
+
+.text-content .description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #dcdcdc;
+    max-height: 120px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-content p strong {
+    color: #ffcc00;
+}
+
+.text-content .genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.text-content .genres span {
+    background-color: #ffcc00;
+    color: #0d1126;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.text-content .genres span:hover {
+    background-color: #e0a800;
 }
