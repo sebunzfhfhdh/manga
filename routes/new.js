@@ -21,6 +21,30 @@ const formatMangaData = (manga, baseUrl) => ({
     poster: transformImageUrl(manga.poster, baseUrl),
 });
 
+const transformImageUrl = (url, baseUrl) => {
+    try {
+        const decodedUrl = decodeURIComponent(url); 
+        let filePath;
+
+        if (decodedUrl.includes('/mangap')) {
+            filePath = decodedUrl.split('/mangap')[1];
+        } else {
+            filePath = decodedUrl; 
+        }
+
+        if (filePath && filePath.startsWith('/')) {
+            filePath = filePath.substring(1);
+        }
+
+        return filePath
+            ? `${baseUrl}images/${filePath}`
+            : `${baseUrl}images/${decodedUrl}`; 
+
+    } catch (err) {
+        console.error('Error transforming image URL:', err.message);
+        return `${baseUrl}images/${url}`;
+    }
+};
 
 router.get('/', async (req, res, next) => {
     const baseUrl = `${req.protocol}://${req.get('host')}/`;
