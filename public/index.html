@@ -9,27 +9,28 @@
 <body>
     <header class="hero-section">
         <div class="hero-content">
-            <h1>Welcome to <span class="highlight">MangaWave API</span></h1>
-            <p>Your gateway to a vast collection of manga data and resources!</p>
+            <h1>Discover the Power of Our API</h1>
+            <p>Access a vast collection of manga, anime details, and more with our comprehensive API. Easy to use, reliable, and built for developers.</p>
             <button class="cta-button" onclick="window.location.href = 'https://discord.gg/kyCckj7773';">Get Started</button>
         </div>
         <div class="card-container">
             <div class="card">
-                <span class="icon">📚</span>
-                <h2 class="highlight">Manga Data</h2>
-                <p>Retrieve manga titles, chapters, covers, and more from a collection of <span class="highlight">4,000+ manga/manhwa</span> with just a few API calls.</p>
+                <div class="icon">📚</div>
+                <h3 class="highlight">Abundant Data</h3>
+                <p>Access data from <span class="highlight">over 8000 manga titles</span> with ease.</p>
             </div>
             <div class="card">
-                <span class="icon">🔍</span>
-                <h2 class="highlight">Search</h2>
-                <p>Use powerful filtering options to search through our extensive database of over <span class="highlight">4,000+ manga/manhwa.</span></p>
-            </div>            
+                <div class="icon">🚀</div>
+                <h3 class="highlight">Fast & Reliable</h3>
+                <p>Quick data retrieval for a smooth user experience.</p>
+            </div>
             <div class="card">
-                <span class="icon">⚙️</span>
-                <h2 class="highlight">Integration</h2>
-                <p>Easily integrate our API into your projects, apps, or websites to get <span class="highlight">real-time updates</span> on manga chapters and releases.</p>
+                <div class="icon">🔗</div>
+                <h3 class="highlight">Easy Integration</h3>
+                <p>Simple endpoints for effortless API setup.</p>
             </div>
         </div>
+        
         <h2 class="section-title">
             Explore Manga <span class="highlight">Like Never Before</span>
         </h2>
@@ -89,22 +90,35 @@
             const mangaDetailsContainer = document.getElementById('mangaDetails');
         
             mangaDetailsContainer.innerHTML = `
-                <div class="details-container">
-                    <div class="image-container">
-                        <img src="${mangaData.poster}" alt="${mangaData.name}">
-                        <h3>${mangaData.name}</h3>
-                    </div>
-                    <div class="text-content">
-                        <p class="description">${mangaData.description || 'No description available.'}</p>
-                        <p><strong>Genres:</strong> ${mangaData.genres ? mangaData.genres.split(',').map(genre => `<span>${genre.trim()}</span>`).join(' ') : 'N/A'}</p>
-                        <p><strong>Views:</strong> ${mangaData.views || 'N/A'}</p>
-                        <p><strong>Chapters:</strong> ${mangaData.chapters || 'N/A'}</p>
+            <div class="details-container">
+                <div class="image-container">
+                    <img src="${mangaData.poster}" alt="${mangaData.name}">
+                    <h3>${mangaData.name}</h3>
+                </div>
+                <div class="text-content">
+                    <p class="description">${mangaData.description || 'No description available.'}</p>
+                    <div class="info-groups">
+                        <div class="genres">
+                            <div class="genre-list">
+                                ${mangaData.genres ? mangaData.genres.split(',').map(genre => `<span>${genre.trim()}</span>`).join(' ') : 'N/A'}
+                            </div>
+                        </div>
+                        <div class="stats">
+                            <p><strong>Id:</strong> ${mangaData.id || 'N/A'}</p>
+                            <p><strong>Views:</strong> ${mangaData.views || 'N/A'}</p>
+                            <p><strong>Likes:</strong> ${mangaData.likes || 'N/A'}</p>
+                            <p><strong>Chapters:</strong> ${mangaData.chapters || 'N/A'}</p>
+                        </div>
                     </div>
                 </div>
-            `;
-            mangaDetailsSection.classList.remove('hidden');
+            </div>
+        `;
+        mangaDetailsSection.classList.remove('hidden');
+
         }
         fetchPopularManga();
+
+        
         </script>
         
 </body>
