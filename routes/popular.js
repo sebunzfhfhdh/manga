@@ -48,13 +48,17 @@ const transformImageUrl = (url, baseUrl) => {
     }
 };
 
-
-// Fetch popular mangas based on the number of views (popularity)
+// Fetch popular mangas based on views and likes
 router.get('/', async (req, res, next) => {
     const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
 
     try {
-        const query = `SELECT * FROM mangas ORDER BY views DESC`;
+        // Adjust SQL query to include likes in popularity calculation
+        const query = `
+            SELECT *, (views * 0.7 + likes * 0.3) AS popularity
+            FROM mangas
+            ORDER BY popularity DESC
+        `;
         const result = await fetchManga(query);
 
         if (!result) {
@@ -74,6 +78,5 @@ router.use((err, req, res, next) => {
     console.error('Error handling middleware:', err.message);
     res.status(500).json({ error: 'Internal Server Error' });
 });
-
 
 module.exports = router;
