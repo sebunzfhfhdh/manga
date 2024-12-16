@@ -48,14 +48,27 @@ const transformImageUrl = (url, baseUrl) => {
     }
 };
 
-
-// Fetch popular mangas based on the number of views (popularity)
+// Fetch popular mangas based on the weighted score
 router.get('/', async (req, res, next) => {
     const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
+    const minUsers = 100; // Minimum number of users required for weighted score
 
     try {
-        const query = `SELECT * FROM mangas ORDER BY views DESC`;
-        const result = await fetchManga(query);
+        // Calculate the mean score (C) across all mangas
+        const meanScoreQuery = `SELECT AVG(score) AS meanScore FROM mangas WHERE score IS NOT NULL`;
+        const meanScoreResult = await fetchManga(meanScoreQuery);
+        const C = meanScoreResult?.[0]?.meanScore || 0; // Default to 0 if no data
+
+        // SQL query to calculate weighted score
+        const query = `
+            SELECT *,
+                ((votes / (votes + ?)) * score + (? / (votes + ?)) * ?) AS weightedScore
+            FROM mangas
+            WHERE score IS NOT NULL
+            ORDER BY weightedScore DESC
+        `;
+        const params = [minUsers, minUsers, minUsers, C];
+        const result = await fetchManga(query, params);
 
         if (!result) {
             return res.status(404).json({ error: 'No popular manga found' });
@@ -74,6 +87,5 @@ router.use((err, req, res, next) => {
     console.error('Error handling middleware:', err.message);
     res.status(500).json({ error: 'Internal Server Error' });
 });
-
 
 module.exports = router;
