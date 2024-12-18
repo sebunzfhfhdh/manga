@@ -195,5 +195,6 @@ Run the test suite using the following command:
 <p align="left">
    <a href="https://github.com{/sebunzfhfhdh/manga/}graphs/contributors">
       <img src="https://contrib.rocks/image?repo=sebunzfhfhdh/manga">
+      <img src="https://contrib.rocks/image?repo=sebunzfhfhdh/manga">
    </a>
 </p>
