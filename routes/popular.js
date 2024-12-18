@@ -48,27 +48,18 @@ const transformImageUrl = (url, baseUrl) => {
     }
 };
 
-// Fetch popular mangas based on the weighted score
+// Fetch popular mangas based on views and likes
 router.get('/', async (req, res, next) => {
     const baseUrl = `${req.protocol}://${req.get('host')}/`; // Get base URL dynamically
-    const minUsers = 100; // Minimum number of users required for weighted score
 
     try {
-        // Calculate the mean score (C) across all mangas
-        const meanScoreQuery = `SELECT AVG(score) AS meanScore FROM mangas WHERE score IS NOT NULL`;
-        const meanScoreResult = await fetchManga(meanScoreQuery);
-        const C = meanScoreResult?.[0]?.meanScore || 0; // Default to 0 if no data
-
-        // SQL query to calculate weighted score
+        // Adjust SQL query to include likes in popularity calculation
         const query = `
-            SELECT *,
-                ((votes / (votes + ?)) * score + (? / (votes + ?)) * ?) AS weightedScore
+            SELECT *, (views * 0.7 + likes * 0.3) AS popularity
             FROM mangas
-            WHERE score IS NOT NULL
-            ORDER BY weightedScore DESC
+            ORDER BY popularity DESC
         `;
-        const params = [minUsers, minUsers, minUsers, C];
-        const result = await fetchManga(query, params);
+        const result = await fetchManga(query);
 
         if (!result) {
             return res.status(404).json({ error: 'No popular manga found' });
