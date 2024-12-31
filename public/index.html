@@ -9,117 +9,113 @@
 <body>
     <header class="hero-section">
         <div class="hero-content">
-            <h1>Discover the Power of Our API</h1>
-            <p>Access a vast collection of manga, anime details, and more with our comprehensive API. Easy to use, reliable, and built for developers.</p>
-            <button class="cta-button" onclick="window.location.href = 'https://discord.gg/kyCckj7773';">Get Started</button>
+            <h1>Welcome to MangaWave API</h1>
+            <h2>Explore Manga <span class="highlight">Like Never Before</span></h2>
+            <button class="cta-button" onclick="window.location.href = 'https://discord.gg/kyCckj7773';">
+                Get Started
+            </button>
         </div>
-        <div class="card-container">
-            <div class="card">
-                <div class="icon">📚</div>
-                <h3 class="highlight">Abundant Data</h3>
-                <p>Access data from <span class="highlight">over 8000 manga titles</span> with ease.</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>Abundant Data 📚</h3>
+                <p>Access comprehensive information on over 8000 manga titles. Dive into a treasure trove of genres, chapters, and more at your fingertips.</p>
             </div>
-            <div class="card">
-                <div class="icon">🚀</div>
-                <h3 class="highlight">Fast & Reliable</h3>
-                <p>Quick data retrieval for a smooth user experience.</p>
+            <div class="feature-card">
+                <h3>Fast & Reliable 🚀</h3>
+                <p>Perfect for developers looking for lightning-fast response times and dependable data delivery.</p>
             </div>
-            <div class="card">
-                <div class="icon">🔗</div>
-                <h3 class="highlight">Easy Integration</h3>
-                <p>Simple endpoints for effortless API setup.</p>
+            <div class="feature-card">
+                <h3>Easy Integration 🔗</h3>
+                <p>Integrate with tools like Fetch, Axios, or any REST client of your choice.</p>
             </div>
         </div>
         
-        <h2 class="section-title">
-            Explore Manga <span class="highlight">Like Never Before</span>
-        </h2>
     </header>
 
-    <section class="manga-section">        
+    <section class="manga-grid-section">
         <div id="mangaList" class="manga-grid">
+            <p>Loading popular manga...</p>
+        </div>
+        
+        <div id="mangaDetails" class="manga-details-container hidden">
+            <div class="manga-details-poster">
+                <img id="mangaPoster" src="" alt="Manga Poster">
+            </div>
+            <div class="manga-details-content">
+                <h3 id="mangaTitle" class="manga-details-header"></h3>
+                <p id="mangaDescription" class="manga-details-description"></p>
+                <div id="mangaGenres" class="manga-genres">
+                </div>
+            </div>
         </div>
     </section>
-
-    <section id="mangaDetailsSection" class="manga-details hidden">
-        <div id="mangaDetails" class="details-container">
-        </div>
-    </section>
-    
-    
 
     <footer>
         <p>&copy; 2024 MangaWave. All rights reserved. | <a href="https://discord.gg/kyCckj7773">Join our Discord</a></p>
     </footer>
 
     <script>
+        document.querySelector('.cta-button').addEventListener('click', function () {
+            document.querySelector('.features').scrollIntoView({ behavior: 'smooth' });
+        });
+
         async function fetchPopularManga() {
             try {
                 const response = await fetch('/popular');
                 const popularMangaData = await response.json();
-        
+
                 if (popularMangaData && popularMangaData.length > 0) {
                     const topSixManga = popularMangaData.slice(0, 6);
                     displayMangaGrid(topSixManga);
                     displayMangaDetails(topSixManga[0]);
                 } else {
-                    console.error('No popular manga data found.');
+                    document.getElementById('mangaList').innerHTML = '<p>No manga data found.</p>';
                 }
             } catch (error) {
                 console.error('Error fetching popular manga data:', error);
+                document.getElementById('mangaList').innerHTML = '<p>Error loading manga data.</p>';
             }
         }
-        
+
         function displayMangaGrid(mangaDataList) {
             const mangaListContainer = document.getElementById('mangaList');
-            mangaListContainer.innerHTML = ''; 
-        
+            mangaListContainer.innerHTML = '';
+
             mangaDataList.forEach(mangaData => {
-                const mangaItem = document.createElement('div');
-                mangaItem.classList.add('manga-item');
-                mangaItem.innerHTML = `
-                    <img src="${mangaData.poster}" alt="${mangaData.name}" class="manga-cover" />
+                const mangaCard = document.createElement('div');
+                mangaCard.classList.add('manga-card');
+                mangaCard.innerHTML = `
+                    <img src="${mangaData.poster}" alt="${mangaData.name}" />
                 `;
-                mangaItem.addEventListener('click', () => displayMangaDetails(mangaData));
-                mangaListContainer.appendChild(mangaItem);
+                mangaCard.addEventListener('click', () => displayMangaDetails(mangaData));
+                mangaListContainer.appendChild(mangaCard);
             });
         }
-        
+
         function displayMangaDetails(mangaData) {
-            const mangaDetailsSection = document.getElementById('mangaDetailsSection');
-            const mangaDetailsContainer = document.getElementById('mangaDetails');
-        
-            mangaDetailsContainer.innerHTML = `
-            <div class="details-container">
-                <div class="image-container">
-                    <img src="${mangaData.poster}" alt="${mangaData.name}">
-                    <h3>${mangaData.name}</h3>
-                </div>
-                <div class="text-content">
-                    <p class="description">${mangaData.description || 'No description available.'}</p>
-                    <div class="info-groups">
-                        <div class="genres">
-                            <div class="genre-list">
-                                ${mangaData.genres ? mangaData.genres.split(',').map(genre => `<span>${genre.trim()}</span>`).join(' ') : 'N/A'}
-                            </div>
-                        </div>
-                        <div class="stats">
-                            <p><strong>Id:</strong> ${mangaData.id || 'N/A'}</p>
-                            <p><strong>Views:</strong> ${mangaData.views || 'N/A'}</p>
-                            <p><strong>Likes:</strong> ${mangaData.likes || 'N/A'}</p>
-                            <p><strong>Chapters:</strong> ${mangaData.chapters || 'N/A'}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        mangaDetailsSection.classList.remove('hidden');
+            const mangaDetails = document.getElementById('mangaDetails');
 
+            document.getElementById('mangaPoster').src = mangaData.poster;
+            document.getElementById('mangaTitle').textContent = mangaData.name;
+            document.getElementById('mangaDescription').textContent = mangaData.description || 'No description available.';
+
+            const genresContainer = document.getElementById('mangaGenres');
+            genresContainer.innerHTML = '';
+            if (mangaData.genres) {
+                mangaData.genres.split(',').forEach(genre => {
+                    const genreButton = document.createElement('a');
+                    genreButton.href = `/search?genre=${genre.trim()}`;
+                    genreButton.textContent = genre.trim();
+                    genreButton.classList.add('genre-button');
+                    genresContainer.appendChild(genreButton);
+                });
+            }
+
+            mangaDetails.classList.remove('hidden');
         }
-        fetchPopularManga();
 
-        
-        </script>
-        
+        fetchPopularManga();
+    </script>
 </body>
 </html>
