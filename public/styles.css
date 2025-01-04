@@ -1,6 +1,6 @@
 /* Root Variables */
 :root {
-    --primary-color: #50e3c2; /* Accent Color */
+    --primary-color: #92ffcc; /* Accent Color */
     --background-color: #121212; /* Dark Background */
     --card-background-color: #1a1a1a; /* Slightly lighter for contrast */
     --text-color: #ffffff; /* Bright Text */
@@ -125,12 +125,12 @@ body {
 .feature-card h3 {
     font-size: 1.5em;
     margin-bottom: var(--spacing-small);
+    color: var(--primary-color);
 }
 
 .feature-card p {
     font-size: 1em;
     line-height: 1.5;
-    color: var(--muted-text-color);
 }
 
 /* Footer */
