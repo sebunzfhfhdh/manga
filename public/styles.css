@@ -345,6 +345,7 @@ footer .social-icons a:hover {
     width: 100%;
     height: auto;
     display: block;
+    filter: brightness(1) contrast(1.2) saturate(1.4);
     border-radius: 5%; /* Makes the image fully rounded */
 }
 
@@ -431,4 +432,32 @@ footer a:hover {
     footer {
         font-size: 0.9rem;
     }
+}
+
+.manga-card img {
+
+    object-fit: cover;
+    transition: transform var(--transition-speed), filter var(--transition-speed);
+    filter: brightness(1) contrast(1.2) saturate(1.4);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.manga-card:hover img {
+    transform: scale(1.05);
+}
+
+.manga-card .info {
+    padding: 15px;
+    text-align: center;
+}
+
+.manga-card .info h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: var(--text-color);
+}
+
+.manga-card .info p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
 }
