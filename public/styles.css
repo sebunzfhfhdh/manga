@@ -1,6 +1,6 @@
 /* Root Variables */
 :root {
-    --primary-color: #92ffcc; /* Accent Color */
+    --primary-color: #94FFD4; /* Accent Color */
     --background-color: #121212; /* Dark Background */
     --card-background-color: #1a1a1a; /* Slightly lighter for contrast */
     --text-color: #ffffff; /* Bright Text */
@@ -393,7 +393,7 @@ footer .social-icons a:hover {
 .genre-button {
     display: inline-block;
     background-color: var(--primary-color);
-    color: #fff;
+    color: var(--card-background-color);
     padding: 8px 16px;
     margin: 5px;
     border-radius: 5px;
